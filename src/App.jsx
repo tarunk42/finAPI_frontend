@@ -33,7 +33,7 @@ function App() {
           {/* Chat Panel */}
           <Panel defaultSize={35} minSize={20} maxSize={75} className="flex flex-col h-full"> {/* Adjust default/min/max as needed */}
             {/* Original chat column content */}
-            <div className="bg-white h-full flex flex-col overflow-hidden"> {/* Ensure inner div takes full panel height */}
+            <div className="bg-white h-full flex flex-col"> {/* Ensure inner div takes full panel height */}
               <Chat updateStructuredDataHistory={updateStructuredDataHistory} />
             </div>
           </Panel>
