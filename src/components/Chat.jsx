@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css'; // KaTeX CSS
 
 const Chat = ({ updateStructuredDataHistory }) => { // Destructure the prop
     // const [serverUrl, setServerUrl] = useState('http://127.0.0.1:5050'); // Base URL for the API
     // const [serverUrl, setServerUrl] = useState('https://finance-agent-bevg.onrender.com'); // Base URL for the API
-    const [serverUrl, setServerUrl] = useState('https://64f6-89-168-199-23.ngrok-free.app'); // Base URL for the API
+    const [serverUrl, setServerUrl] = useState('https://35ad-89-168-199-23.ngrok-free.app'); // Base URL for the API
     // https://2bff-89-168-199-23.ngrok-free.app
     const [chatEndpoint, setChatEndpoint] = useState('/chat'); // Chat endpoint path
     const [agentType, setAgentType] = useState('financial_assistant');
@@ -227,7 +230,7 @@ const handleImageUpload = (e) => {
                         <div
                             className={`max-w-[75%] p-3 rounded-xl shadow-md text-sm ${
                                 msg.role === 'user' ? 'bg-blue-500 text-white rounded-br-none' :
-                                msg.role === 'assistant' ? 'bg-white text-gray-800 border border-gray-200 rounded-bl-none prose prose-sm max-w-none' : // Added prose classes
+                                msg.role === 'assistant' ? 'bg-white text-gray-800 border border-gray-200 rounded-bl-none' : // Removed prose classes
                                 'bg-red-100 text-red-700 border border-red-300 rounded-none w-full text-center' // System/Error message
                             }`}
                         >
@@ -239,7 +242,12 @@ const handleImageUpload = (e) => {
                                 />
                             )}
                             {msg.role === 'assistant' ? (
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm, remarkMath]}
+                                    rehypePlugins={[rehypeKatex]}
+                                >
+                                    {msg.content}
+                                </ReactMarkdown>
                             ) : (
                                 /* For user messages, only display content if it's not just an image message */
                                 msg.content || (msg.imageData && !msg.content) ? msg.content : null
