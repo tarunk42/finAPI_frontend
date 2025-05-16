@@ -8,7 +8,7 @@ import 'katex/dist/katex.min.css'; // KaTeX CSS
 const Chat = ({ updateStructuredDataHistory }) => { // Destructure the prop
     // const [serverUrl, setServerUrl] = useState('http://127.0.0.1:5050'); // Base URL for the API
     // const [serverUrl, setServerUrl] = useState('https://finance-agent-bevg.onrender.com'); // Base URL for the API
-    const [serverUrl, setServerUrl] = useState('https://35ad-89-168-199-23.ngrok-free.app'); // Base URL for the API
+    const [serverUrl, setServerUrl] = useState('https://lively-intimate-treefrog.ngrok-free.app'); // Base URL for the API
     // https://2bff-89-168-199-23.ngrok-free.app
     const [chatEndpoint, setChatEndpoint] = useState('/chat'); // Chat endpoint path
     const [agentType, setAgentType] = useState('financial_assistant');
