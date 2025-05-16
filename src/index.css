@@ -1,0 +1,27 @@
+@import "tailwindcss";
+/* @tailwind components is removed in v4, utilities cover components */
+@tailwind utilities;
+
+/* Define CSS variables for light/dark mode */
+:root {
+  --bg: #ffffff;
+  --text: #1f2937; /* gray-800 */
+  --border: #d1d5db; /* gray-300 */
+}
+
+.dark {
+  --bg: #18181b;      /* zinc-900 */
+  --text: #e5e7eb;    /* gray-200 */
+  --border: #4b5563;  /* gray-700 */
+}
+
+/* Base body styles - apply variables */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0; /* Ensure no default body margin */
+  height: 100vh; /* Ensure body takes full viewport height */
+  width: 100vw; /* Ensure body takes full viewport width */
+  overflow: hidden; /* Prevent body scrollbars by default */
+  /* Apply font if needed, e.g., font-family: "Nunito", sans-serif; */
+}
