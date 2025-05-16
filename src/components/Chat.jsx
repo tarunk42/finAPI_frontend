@@ -6,10 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css'; // KaTeX CSS
 
 const Chat = ({ updateStructuredDataHistory }) => { // Destructure the prop
-    // const [serverUrl, setServerUrl] = useState('http://127.0.0.1:5050'); // Base URL for the API
-    // const [serverUrl, setServerUrl] = useState('https://finance-agent-bevg.onrender.com'); // Base URL for the API
-    const [serverUrl, setServerUrl] = useState('https://lively-intimate-treefrog.ngrok-free.app'); // Base URL for the API
-    // https://2bff-89-168-199-23.ngrok-free.app
+    const [serverUrl, setServerUrl] = useState(import.meta.env.VITE_API_BASE_URL || ''); // Base URL for the API
     const [chatEndpoint, setChatEndpoint] = useState('/chat'); // Chat endpoint path
     const [agentType, setAgentType] = useState('financial_assistant');
     const [currentMessage, setCurrentMessage] = useState('');
@@ -181,50 +178,21 @@ const handleImageUpload = (e) => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100 font-sans">
+        <div className="flex flex-col h-full bg-gray-100 font-sans">
             {/* Header: Configuration */}
-            <div className="p-4 bg-white border-b border-gray-300 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                    <div>
-                        <label htmlFor="serverUrl" className="block text-sm font-medium text-gray-700 mb-1">Server Base URL:</label>
-                        <input
-                            type="text"
-                            id="serverUrl"
-                            value={serverUrl}
-                            onChange={(e) => setServerUrl(e.target.value)}
-                            onBlur={checkApiHealth} // Re-check health on blur
-                            placeholder="e.g., http://127.0.0.1:5050"
-                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            disabled={isLoading}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="agentType" className="block text-sm font-medium text-gray-700 mb-1">Agent Type:</label>
-                        <input
-                            type="text"
-                            id="agentType"
-                            value={agentType}
-                            onChange={(e) => setAgentType(e.target.value)}
-                            placeholder="e.g., financial_assistant"
-                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                            disabled={isLoading}
-                        />
-                    </div>
-                    <div className="md:text-right">
-                        <button
-                            onClick={checkApiHealth}
-                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm"
-                            disabled={isLoading}
-                        >
-                            Refresh API Status
-                        </button>
-                    </div>
-                </div>
-                <p className={`mt-2 text-sm ${getStatusColor()}`}>{status.message}</p>
+            <div className="p-4 bg-white border-b border-gray-300 shadow-sm flex justify-between items-center">
+                <p className={`text-sm ${getStatusColor()} mr-4`}>{status.message}</p>
+                <button
+                    onClick={checkApiHealth}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm whitespace-nowrap"
+                    disabled={isLoading}
+                >
+                    Refresh API Status
+                </button>
             </div>
 
             {/* Chat Messages Area */}
-            <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-gray-50">
+            <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-gray-50 min-h-0">
                 {messages.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div
