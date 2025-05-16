@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"; // Import panel components
 import Chat from './components/Chat';
 import Dash from './components/Dash';
@@ -20,13 +20,22 @@ function App() {
     // If newData is undefined (meaning no structured data in response), do nothing to the history.
   };
 
+  useEffect(() => {
+    const setAppHeight = () => {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+    setAppHeight();
+    window.addEventListener('resize', setAppHeight);
+    return () => window.removeEventListener('resize', setAppHeight);
+  }, []);
+
   return (
     // Mimics body and app-container styles from CSS
     // Use flex, h-screen, w-screen, bg-gray-100 for body-like container
     // Then apply app-container styles within it, using responsive design (md:)
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-0 md:p-5">
       {/* Main container for panels */}
-      <div className="w-full h-screen md:w-[calc(100%-40px)] md:h-[calc(100vh-40px)] bg-white flex flex-col md:flex-row overflow-hidden md:rounded-lg md:border md:border-gray-300 md:shadow-lg">
+      <div className="w-full h-[var(--app-height)] md:w-[calc(100%-40px)] md:h-[calc(100vh-40px)] bg-white flex flex-col md:flex-row overflow-hidden md:rounded-lg md:border md:border-gray-300 md:shadow-lg">
         {/* Use PanelGroup for horizontal resizing */}
         <PanelGroup direction="horizontal" className="flex flex-grow"> {/* Ensure PanelGroup fills the container */}
 
